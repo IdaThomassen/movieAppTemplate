@@ -412,7 +412,6 @@ dialog#movie-dialog::backdrop {
   }
 }
 
-
 .movie-description {
   color: var(--text) !important;
   font-size: 1.1rem !important;

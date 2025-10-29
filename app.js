@@ -7,13 +7,22 @@ let allMovies = []; // Global array to hold all movies
 function initApp() {
   console.log("initApp: app.js is running 🎉");
   getMovies();
-  document.querySelector("#search-input").addEventListener("input", filterMovies);
-  document.querySelector("#genre-select").addEventListener("change", filterMovies);
+  document
+    .querySelector("#search-input")
+    .addEventListener("input", filterMovies);
+  document
+    .querySelector("#genre-select")
+    .addEventListener("change", filterMovies);
+  document
+    .querySelector("#sort-select")
+    .addEventListener("change", filterMovies);
 }
 
 // #2: Fetch movies from JSON and display them
 async function getMovies() {
-  const response = await fetch("https://raw.githubusercontent.com/cederdorff/race/refs/heads/master/data/movies.json");
+  const response = await fetch(
+    "https://raw.githubusercontent.com/cederdorff/race/refs/heads/master/data/movies.json"
+  );
   allMovies = await response.json();
   populateGenreDropdown(); // Udfyld dropdown med genres <-----
   displayMovies(allMovies);
@@ -53,34 +62,42 @@ function displayMovie(movie) {
   );
 }
 
-
-
-// #5: Kombineret søgning og genre filtrering
+// #5: Kombineret søgning, genre og sortering
 function filterMovies() {
-  const searchValue = document.querySelector("#search-input").value.toLowerCase();
+  const searchValue = document
+    .querySelector("#search-input")
+    .value.toLowerCase();
   const genreValue = document.querySelector("#genre-select").value;
+  const sortValue = document.querySelector("#sort-select").value; // ← NY linje!
 
-  // Start med alle movies
+  // Start med alle movies - vi vil altid gerne begynde med hele datasættet
   let filteredMovies = allMovies;
 
-  // TRIN 1: Filtrer på søgetekst, hvis der er skrevet noget
+  // TRIN 1: Filtrer på søgetekst (fra input-felt)
   if (searchValue) {
-    filteredMovies = filteredMovies.filter(movie => {
+    filteredMovies = filteredMovies.filter((movie) => {
       return movie.title.toLowerCase().includes(searchValue);
     });
   }
 
-  // TRIN 2: Filtrer på genre, hvis valgte genre ikke er "all"
+  // TRIN 2: Filtrer på genre (fra dropdown)
   if (genreValue !== "all") {
-    filteredMovies = filteredMovies.filter(movie => {
+    filteredMovies = filteredMovies.filter((movie) => {
       return movie.genre.includes(genreValue);
     });
   }
 
-  displayMovies(filteredMovies);
+  // TRIN 3: Sorter resultater (fra dropdown)
+  if (sortValue === "title") {
+    filteredMovies.sort((a, b) => a.title.localeCompare(b.title)); // A-Å
+  } else if (sortValue === "year") {
+    filteredMovies.sort((a, b) => b.year - a.year); // Nyeste først
+  } else if (sortValue === "rating") {
+    filteredMovies.sort((a, b) => b.rating - a.rating); // Højeste først
+  }
+
+  displayMovies(filteredMovies); // Vis de filtrerede og sorterede movies
 }
-
-
 
 // #6: Udfyld genre-dropdown med alle unikke genrer
 function populateGenreDropdown() {
@@ -98,6 +115,9 @@ function populateGenreDropdown() {
 
   const sortedGenres = Array.from(genres).sort();
   for (const genre of sortedGenres) {
-    genreSelect.insertAdjacentHTML("beforeend", `<option value="${genre}">${genre}</option>`);
+    genreSelect.insertAdjacentHTML(
+      "beforeend",
+      `<option value="${genre}">${genre}</option>`
+    );
   }
 }

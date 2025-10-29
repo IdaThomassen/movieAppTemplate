@@ -47,3 +47,8 @@ document.addEventListener("DOMContentLoaded", initApp);
 function initApp() {
   loadMovies();
 }
+
+/* "når noget er med "" så er det tekst" */
+/* hvis det ikke har "" så kan det være tal */
+/* const, man kan ikke give den en ny værdi. Men det er muligt at gøre med en let */
+/* variabler kan bruges til at gemme objekter, arrays, tal og tekst */

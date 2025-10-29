@@ -1,4 +1,4 @@
-Her er svar til opgaven movie-app-del 2
+Her er svar til opgaven movie-app-del 2 og til del 3
 
 Del 1
 1a.

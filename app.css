@@ -38,16 +38,10 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background: linear-gradient(
-    135deg,
-    var(--bg) 0%,
-    #1a1a1a 50%,
-    var(--primary-light) 100%
-  );
+  background: linear-gradient(135deg, var(--bg) 0%, #1a1a1a 50%, var(--primary-light) 100%);
   color: var(--text);
   min-height: 100vh;
 }
@@ -65,95 +59,111 @@ main {
    FILTERBAR (SØG/SORT/FILTER)
    ===================== */
 .filterbar {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-#search-input {
-  flex: 1;
-  min-width: 120px;
-}
-
-#search-input,
-#genre-select,
-#sort-select {
   background: var(--bg-card);
-  color: var(--text);
-  border: 1px solid var(--secondary);
   border-radius: var(--radius);
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: var(--transition);
-  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(172, 198, 201, 0.1);
 }
 
-#search-input:focus,
-#genre-select:focus,
-#sort-select:focus {
-  outline: 2px solid var(--secondary);
-  border-color: var(--secondary);
+/* Filter rækker */
+.filter-row-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-#search-input::placeholder {
-  color: var(--text-light);
-  opacity: 1;
+.filter-row-ranges {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
 }
 
-#genre-select,
-#sort-select {
-  min-width: 160px;
-  cursor: pointer;
+/* Filter grupper */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-/* Rating filter styling */
-.rating-filter {
+.filter-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  display: block;
+}
+
+/* Range grupper */
+.range-group {
+  flex: 1;
+}
+
+.range-label {
+  margin-bottom: 0.5rem;
+}
+
+.range-inputs {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.rating-filter input {
-  width: 80px;
-  background: var(--bg-card);
+.range-separator {
+  color: var(--secondary);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Input felter styling */
+#search-input,
+#genre-select,
+#sort-select,
+#year-from,
+#year-to,
+#rating-from,
+#rating-to {
+  background: var(--bg);
   color: var(--text);
-  border: 1px solid var(--secondary);
-  border-radius: var(--radius);
+  border: 1px solid rgba(172, 198, 201, 0.3);
+  border-radius: calc(var(--radius) * 0.5);
   padding: 0.75rem 1rem;
   font-size: 1rem;
   transition: var(--transition);
-  box-shadow: var(--shadow);
+  width: 100%;
 }
 
-.rating-filter input:focus {
-  outline: 2px solid var(--secondary);
+#search-input:focus,
+#genre-select:focus,
+#sort-select:focus,
+#year-from:focus,
+#year-to:focus,
+#rating-from:focus,
+#rating-to:focus {
+  outline: none;
   border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(172, 198, 201, 0.2);
 }
 
-#clear-filters {
-  background: var(--bg-card);
-  color: var(--text);
-  border: 1px solid var(--secondary);
-  border-radius: var(--radius);
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: var(--transition);
-  box-shadow: var(--shadow);
+#search-input::placeholder,
+#year-from::placeholder,
+#year-to::placeholder,
+#rating-from::placeholder,
+#rating-to::placeholder {
+  color: var(--text-light);
+  opacity: 0.6;
+}
+
+#genre-select,
+#sort-select {
   cursor: pointer;
-  font-weight: 500;
 }
 
-#clear-filters:hover {
-  background: var(--error);
-  color: white;
-  border-color: var(--error);
-  transform: translateY(-2px);
-}
-
-#clear-filters:focus {
-  outline: 2px solid var(--secondary);
-  border-color: var(--secondary);
+/* Search group særlig styling */
+.search-group {
+  grid-column: 1 / 2;
 }
 
 /* =====================
@@ -193,7 +203,27 @@ footer {
 /* =====================
    MOVIE GRID & CARDS
    ===================== */
-/* TODO !!! */
+#movie-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  padding: 2rem 0;
+}
+@media (min-width: 600px) {
+  #movie-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 992px) {
+  #movie-list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (min-width: 1400px) {
+  #movie-list {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
 
 .movie-card {
   background: var(--bg-card);
@@ -202,7 +232,7 @@ footer {
   overflow: hidden;
   transition: var(--transition);
   cursor: pointer;
-  border: 3px solid red; /* Tilføj for at se boundaries */
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .movie-card:hover {
@@ -220,11 +250,7 @@ footer {
   width: 100%;
   height: 400px;
   object-fit: cover;
-  background: linear-gradient(
-    135deg,
-    var(--secondary-light),
-    var(--primary-light)
-  );
+  background: linear-gradient(135deg, var(--secondary-light), var(--primary-light));
   transition: var(--transition);
 }
 
@@ -417,47 +443,9 @@ dialog#movie-dialog::backdrop {
   gap: 0.5rem;
 }
 
-/* Mobile først - 1 kolonne */
-#movie-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  padding: 1rem;
-}
-
 @media (max-width: 768px) {
   #dialog-content .movie-rating {
     justify-content: center;
-  }
-}
-/* Mobile først - 1 kolonne */
-#movie-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  padding: 1rem;
-}
-
-/* Tablet - 2 kolonner */
-@media (min-width: 600px) {
-  #movie-list {
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    padding: 2rem;
-  }
-}
-
-/* Desktop - 3 kolonner */
-@media (min-width: 992px) {
-  #movie-list {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-
-/* Store skærme - 4 kolonner */
-@media (min-width: 1400px) {
-  #movie-list {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
 
@@ -471,6 +459,115 @@ dialog#movie-dialog::backdrop {
   border-radius: var(--radius);
   border-left: 4px solid var(--secondary);
   font-style: italic;
+}
+
+/* =====================
+   CLEAR FILTERS BUTTON
+   ===================== */
+#clear-filters {
+  background: linear-gradient(135deg, var(--error) 0%, #c62828 100%);
+  color: white;
+  border: none;
+  border-radius: calc(var(--radius) * 0.5);
+  padding: 0.875rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: var(--transition);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+
+#clear-filters:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(135deg, #c62828 0%, #b71c1c 100%);
+}
+
+#clear-filters:active {
+  transform: translateY(0);
+}
+
+#clear-filters:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.3);
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+.btn-text {
+  font-size: 0.95rem;
+}
+
+.no-results {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1.2rem;
+  margin: 2rem 0;
+  padding: 2rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+}
+
+/* =====================
+   RESPONSIVE FILTERBAR
+   ===================== */
+@media (max-width: 900px) {
+  .filter-row-main {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .filter-row-ranges {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  #clear-filters {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .filterbar {
+    padding: 1rem;
+  }
+
+  .range-inputs {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .range-separator {
+    transform: rotate(90deg);
+  }
+
+  #clear-filters {
+    padding: 1rem;
+    width: 100%;
+  }
+}
+
+/* =====================
+   RESPONSIVE & ACCESSIBILITY
+   ===================== */
+@media (max-width: 480px) {
+  #movie-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .movie-card {
+    max-width: 350px;
+    margin: 0 auto;
+  }
+  header h1 {
+    font-size: 1.75rem;
+  }
 }
 
 /* Focus styles for keyboard navigation */
@@ -494,119 +591,5 @@ dialog#movie-dialog::backdrop {
   }
   #close-dialog {
     background: rgba(23, 23, 23, 0.9);
-  }
-}
-
-/* År filter styling */
-.year-filter {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.year-filter input {
-  width: 80px;
-  background: var(--bg-card);
-  color: var(--text);
-  border: 1px solid var(--secondary);
-  border-radius: var(--radius);
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: var(--transition);
-  box-shadow: var(--shadow);
-}
-
-.year-filter input:focus {
-  outline: 2px solid var(--secondary);
-  border-color: var(--secondary);
-}
-
-
-/* Ekstra der er sat ind, kan nok slettes */
-/* Ekstra styling til nye filter felter */
-.year-filter,
-.rating-filter {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.year-filter label,
-.rating-filter label {
-  font-size: 0.875rem;
-  color: var(--text-light);
-  white-space: nowrap;
-}
-
-.year-filter input,
-.rating-filter input {
-  width: 80px;
-  background: var(--bg-card);
-  color: var(--text);
-  border: 1px solid var(--secondary);
-  border-radius: var(--radius);
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: var(--transition);
-  box-shadow: var(--shadow);
-}
-
-.year-filter input:focus,
-.rating-filter input:focus {
-  outline: 2px solid var(--secondary);
-  border-color: var(--secondary);
-}
-
-#clear-filters {
-  background: var(--bg-card);
-  color: var(--text);
-  border: 1px solid var(--secondary);
-  border-radius: var(--radius);
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: var(--transition);
-  box-shadow: var(--shadow);
-  cursor: pointer;
-  font-weight: 500;
-}
-
-#clear-filters:hover {
-  background: var(--error);
-  color: white;
-  border-color: var(--error);
-  transform: translateY(-2px);
-}
-
-#clear-filters:focus {
-  outline: 2px solid var(--secondary);
-  border-color: var(--secondary);
-}
-
-.no-results {
-  text-align: center;
-  color: var(--text-light);
-  font-size: 1.2rem;
-  margin: 2rem 0;
-  padding: 2rem;
-  background: var(--bg-card);
-  border-radius: var(--radius);
-}
-
-/* Responsive filter bar */
-@media (max-width: 768px) {
-  .filterbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-
-  .year-filter,
-  .rating-filter {
-    justify-content: space-between;
-  }
-
-  .year-filter input,
-  .rating-filter input {
-    width: 100px;
   }
 }
